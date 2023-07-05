@@ -10,14 +10,10 @@ public class QRScanner : MonoBehaviour
 {
     WebCamTexture webcamTexture;
     string QrCode = string.Empty;
-    public AudioSource beepSound;
 
     void Start()
     {
-        var renderer = GetComponent<RawImage>();
-        webcamTexture = new WebCamTexture(512, 512);
-        this.GetComponent<Renderer>().material.mainTexture = webcamTexture;
-        StartCoroutine(GetQRCode());
+
     }
 
     IEnumerator GetQRCode()
@@ -45,5 +41,19 @@ public class QRScanner : MonoBehaviour
             yield return null;
         }
         webcamTexture.Stop();
+    }
+
+    public void StartDetection()
+    {
+        QrCode = string.Empty;
+        var renderer = GetComponent<RawImage>();
+        webcamTexture = new WebCamTexture(512, 512);
+        this.GetComponent<Renderer>().material.mainTexture = webcamTexture;
+        StartCoroutine(GetQRCode());
+    }
+
+    public void StopDetection()
+    {
+        QrCode = "@STOP";
     }
 }

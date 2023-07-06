@@ -5,11 +5,15 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using ZXing;
+using TMPro;
 
 public class QRScanner : MonoBehaviour
 {
+    
+    public TMP_Text outputText;
     WebCamTexture webcamTexture;
     string QrCode = string.Empty;
+    bool isScanning = false;
 
     void Start()
     {
@@ -18,6 +22,8 @@ public class QRScanner : MonoBehaviour
 
     IEnumerator GetQRCode()
     {
+        isScanning = true;
+        outputText.text = "Scanning...";
         IBarcodeReader barCodeReader = new BarcodeReader();
         webcamTexture.Play();
         var snap = new Texture2D(webcamTexture.width, webcamTexture.height, TextureFormat.ARGB32, false);
@@ -25,6 +31,12 @@ public class QRScanner : MonoBehaviour
         {
             try
             {
+                if(isScanning == false)
+                {
+                    outputText.text = "Stopped.";
+                    break;
+                }
+
                 snap.SetPixels32(webcamTexture.GetPixels32());
                 var Result= barCodeReader.Decode(snap.GetRawTextureData(), webcamTexture.width, webcamTexture.height, RGBLuminanceSource.BitmapFormat.ARGB32);
                 if (Result!= null)
@@ -32,12 +44,19 @@ public class QRScanner : MonoBehaviour
                     QrCode = Result.Text;
                     if (!string.IsNullOrEmpty(QrCode))
                     {
-                         Debug.Log("DECODED TEXT FROM QR: " + QrCode);
+
+                        Debug.Log("Plain Text: " + QrCode);
+                        Debug.Log("Decrypted Text: " + CrypterManager.DecryptCipherTextToPlainText(QrCode));
+                        outputText.text = CrypterManager.DecryptCipherTextToPlainText(QrCode);
                         break;
                     }
                 }
             }
-            catch (Exception ex) { Debug.LogWarning(ex.Message); }
+            catch (Exception ex) 
+            { 
+                Debug.LogWarning(ex.Message); 
+                outputText.text = "Exception: " + ex.Message;
+            }
             yield return null;
         }
         webcamTexture.Stop();
@@ -54,6 +73,6 @@ public class QRScanner : MonoBehaviour
 
     public void StopDetection()
     {
-        QrCode = "@STOP";
+        isScanning = false;
     }
 }

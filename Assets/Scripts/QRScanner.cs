@@ -6,14 +6,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using ZXing;
 using TMPro;
+using UnityEngine.Networking;
 
 public class QRScanner : MonoBehaviour
 {
     
     public TMP_Text outputText;
     WebCamTexture webcamTexture;
-    string QrCode = string.Empty;
+    public string QrCode = string.Empty;
     bool isScanning = false;
+
+    const string URL = "https://script.google.com/macros/s/AKfycbyK3YFjdsv2KV15rAes-IYjHh50RiolD72oj2yJzYFdxndzvEG_3UtUhPDRIAEviawu/exec";
 
     void Start()
     {
@@ -60,6 +63,16 @@ public class QRScanner : MonoBehaviour
             yield return null;
         }
         webcamTexture.Stop();
+
+        WWWForm form = new WWWForm();
+        form.AddField("value", outputText.text);
+        using(UnityWebRequest www = UnityWebRequest.Post(URL, form))
+        {
+            yield return www.SendWebRequest();
+
+            string data = www.downloadHandler.text;
+            print(data);
+        }
     }
 
     public void StartDetection()

@@ -9,7 +9,7 @@ public class CrypterManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string x = "";
+        
         //Debug.Log("Encode Text:" + EncryptPlainTextToCipherText(x));
     }
 

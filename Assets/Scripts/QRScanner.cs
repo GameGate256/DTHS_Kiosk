@@ -16,7 +16,7 @@ public class QRScanner : MonoBehaviour
     public string QrCode = string.Empty;
     bool isScanning = false;
 
-    const string URL = "https://script.google.com/macros/s/AKfycbxD1kP-vOJvsFRi7GFpszQJpN4qfUu0Ubd0EZ-nf5EP_HtrVZy5TtDyJ5HsW60k9Qe1/exec";
+    const string URL = "https://script.google.com/macros/s/AKfycbyK3YFjdsv2KV15rAes-IYjHh50RiolD72oj2yJzYFdxndzvEG_3UtUhPDRIAEviawu/exec";
 
     void Start()
     {

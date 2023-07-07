@@ -14,7 +14,7 @@ public class QRScanner : MonoBehaviour
     public TMP_Text outputText;
     WebCamTexture webcamTexture;
     public string QrCode = string.Empty;
-    bool isScanning = false;
+    bool isScanning = false, isScanSuccess = false;
 
     const string URL = "https://script.google.com/macros/s/AKfycbyK3YFjdsv2KV15rAes-IYjHh50RiolD72oj2yJzYFdxndzvEG_3UtUhPDRIAEviawu/exec";
 
@@ -25,6 +25,7 @@ public class QRScanner : MonoBehaviour
 
     IEnumerator GetQRCode()
     {
+        isScanSuccess = false;
         isScanning = true;
         outputText.text = "Scanning...";
         IBarcodeReader barCodeReader = new BarcodeReader();
@@ -44,14 +45,24 @@ public class QRScanner : MonoBehaviour
                 var Result= barCodeReader.Decode(snap.GetRawTextureData(), webcamTexture.width, webcamTexture.height, RGBLuminanceSource.BitmapFormat.ARGB32);
                 if (Result!= null)
                 {
+                    //print("DETECTED");
                     QrCode = Result.Text;
                     if (!string.IsNullOrEmpty(QrCode))
                     {
-
-                        Debug.Log("Plain Text: " + QrCode);
-                        Debug.Log("Decrypted Text: " + CrypterManager.DecryptCipherTextToPlainText(QrCode));
-                        outputText.text = CrypterManager.DecryptCipherTextToPlainText(QrCode);
-                        break;
+                        try
+                        {
+                            //Debug.Log("Plain Text: " + QrCode);
+                            //Debug.Log("Decrypted Text: " + CrypterManager.DecryptAES(QrCode));
+                            outputText.text = CrypterManager.DecryptAES(QrCode);
+                            isScanSuccess = true;
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogWarning(ex.Message);
+                            outputText.text = "Failed to decrypt QR Code.";
+                            StopCoroutine(GetQRCode());
+                        }
                     }
                 }
             }
@@ -59,19 +70,22 @@ public class QRScanner : MonoBehaviour
             { 
                 Debug.LogWarning(ex.Message); 
                 outputText.text = "Exception: " + ex.Message;
+                StopCoroutine(GetQRCode());
             }
             yield return null;
         }
         webcamTexture.Stop();
-
-        WWWForm form = new WWWForm();
-        form.AddField("value", outputText.text);
-        using(UnityWebRequest www = UnityWebRequest.Post(URL, form))
+        if(isScanSuccess)
         {
-            yield return www.SendWebRequest();
+            WWWForm form = new WWWForm();
+            form.AddField("value", outputText.text);
+            using(UnityWebRequest www = UnityWebRequest.Post(URL, form))
+            {
+                yield return www.SendWebRequest();
 
-            string data = www.downloadHandler.text;
-            print(data);
+                string data = www.downloadHandler.text;
+                //print(data);
+            }
         }
     }
 
@@ -81,6 +95,8 @@ public class QRScanner : MonoBehaviour
         var renderer = GetComponent<RawImage>();
         webcamTexture = new WebCamTexture(512, 512);
         this.GetComponent<Renderer>().material.mainTexture = webcamTexture;
+
+        print(webcamTexture.deviceName);
         StartCoroutine(GetQRCode());
     }
 

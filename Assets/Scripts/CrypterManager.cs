@@ -1,80 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.IO;
 using System.Text;
 using UnityEngine;
 
 public class CrypterManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    static string aes_key = "03nxUXTG4l1ZMH54oqR2NbaAbknyt3qhBN9jaUL3FtM="; //44 characters
+    static string aes_iv = "2878dc064fdaf29f"; //24 characters
+
+    public string x;
+
+    public void PrintEncodeText()
     {
-        
-        //Debug.Log("Encode Text:" + EncryptPlainTextToCipherText(x));
+        print(EncryptAES(x));
     }
 
-    //This security key should be very complex and Random for encrypting the text. This playing vital role in encrypting the text.
-    private const string SecurityKey = "LO8to6z}sfyM7116'U{ze><<5Yp8eYA8wn/UYvim&uZ3b->hh&:H]@rB_wbnDCJ";
-
-    //This method is used to convert the plain text to Encrypted/Un-Readable Text format.
-    public static string EncryptPlainTextToCipherText(string PlainText)
+    public static string EncryptAES(string plainText)
     {
-        // Getting the bytes of Input String.
-        byte[] toEncryptedArray = UTF8Encoding.UTF8.GetBytes(PlainText);
+        byte[] encrypted;
 
-        MD5CryptoServiceProvider objMD5CryptoService = new MD5CryptoServiceProvider();
-        //Gettting the bytes from the Security Key and Passing it to compute the Corresponding Hash Value.
-        byte[] securityKeyArray = objMD5CryptoService.ComputeHash(UTF8Encoding.UTF8.GetBytes(SecurityKey));
-        //De-allocatinng the memory after doing the Job.
-        objMD5CryptoService.Clear();
+        using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
+        {
+            aes.KeySize = 256;
+            aes.BlockSize = 128;
+            aes.Key = System.Convert.FromBase64String(aes_key);
+            aes.IV = Encoding.UTF8.GetBytes(aes_iv);
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
 
-        var objTripleDESCryptoService = new TripleDESCryptoServiceProvider();
-        //Assigning the Security key to the TripleDES Service Provider.
-        objTripleDESCryptoService.Key = securityKeyArray;
-        //Mode of the Crypto service is Electronic Code Book.
-        objTripleDESCryptoService.Mode = CipherMode.ECB;
-        //Padding Mode is PKCS7 if there is any extra byte is added.
-        objTripleDESCryptoService.Padding = PaddingMode.PKCS7;
+            ICryptoTransform enc = aes.CreateEncryptor(aes.Key, aes.IV);
 
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, enc, CryptoStreamMode.Write))
+                {
+                    using (StreamWriter sw = new StreamWriter(cs))
+                    {
+                        sw.Write(plainText);
+                    }
 
-        var objCrytpoTransform = objTripleDESCryptoService.CreateEncryptor();
-        //Transform the bytes array to resultArray
-        byte[] resultArray = objCrytpoTransform.TransformFinalBlock(toEncryptedArray, 0, toEncryptedArray.Length);
-        objTripleDESCryptoService.Clear();
-        return System.Convert.ToBase64String(resultArray, 0, resultArray.Length);
+                    encrypted = ms.ToArray();
+                }
+            }
+        }
+
+        return System.Convert.ToBase64String(encrypted);
     }
 
-    //This method is used to convert the Encrypted/Un-Readable Text back to readable  format.
-    public static string DecryptCipherTextToPlainText(string CipherText)
+    public static string DecryptAES(string encryptedText)
     {
-        try
+        string decrypted = null;
+        byte[] cipher = System.Convert.FromBase64String(encryptedText);
+
+        using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
         {
-            byte[] toEncryptArray = System.Convert.FromBase64String(CipherText);
-            MD5CryptoServiceProvider objMD5CryptoService = new MD5CryptoServiceProvider();
+            aes.KeySize = 256; //AES256
+            aes.BlockSize = 128;
+            aes.Key = System.Convert.FromBase64String(aes_key);
+            aes.IV = Encoding.UTF8.GetBytes(aes_iv);
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
 
-            //Gettting the bytes from the Security Key and Passing it to compute the Corresponding Hash Value.
-            byte[] securityKeyArray = objMD5CryptoService.ComputeHash(UTF8Encoding.UTF8.GetBytes(SecurityKey));
-            objMD5CryptoService.Clear();
+            ICryptoTransform dec = aes.CreateDecryptor(aes.Key, aes.IV);
 
-            var objTripleDESCryptoService = new TripleDESCryptoServiceProvider();
-            //Assigning the Security key to the TripleDES Service Provider.
-            objTripleDESCryptoService.Key = securityKeyArray;
-            //Mode of the Crypto service is Electronic Code Book.
-            objTripleDESCryptoService.Mode = CipherMode.ECB;
-            //Padding Mode is PKCS7 if there is any extra byte is added.
-            objTripleDESCryptoService.Padding = PaddingMode.PKCS7;
-
-            var objCrytpoTransform = objTripleDESCryptoService.CreateDecryptor();
-            //Transform the bytes array to resultArray
-            byte[] resultArray = objCrytpoTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-            objTripleDESCryptoService.Clear();
-
-            //Convert and return the decrypted data/byte into string format.
-            return UTF8Encoding.UTF8.GetString(resultArray);
+            using (MemoryStream ms = new MemoryStream(cipher))
+            {
+                using (CryptoStream cs = new CryptoStream(ms, dec, CryptoStreamMode.Read))
+                {
+                    using (StreamReader sr = new StreamReader(cs))
+                    {
+                        decrypted = sr.ReadToEnd();
+                    }
+                }
+            }
         }
-        catch (System.Exception)
-        {
-            return "@DECODEFAILED";
-        }
+
+        return decrypted;
     }
 }

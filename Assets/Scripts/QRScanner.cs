@@ -66,13 +66,15 @@ public class QRScanner : MonoBehaviour
 
         WWWForm form = new WWWForm();
         form.AddField("value", CrypterManager.DecryptCipherTextToPlainText(QrCode));
-        using(UnityWebRequest www = UnityWebRequest.Post(URL, form))
-        {
-            yield return www.SendWebRequest();
+        if (CrypterManager.DecryptCipherTextToPlainText(QrCode) != "@DECODEFAILED")
+            
+            using(UnityWebRequest www = UnityWebRequest.Post(URL, form))
+            {
+                yield return www.SendWebRequest();
 
-            string data = www.downloadHandler.text;
-            print(data);
-        }
+                string data = www.downloadHandler.text;
+                print(data);
+            }
     }
 
     public void StartDetection()

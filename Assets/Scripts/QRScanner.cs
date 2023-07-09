@@ -61,7 +61,7 @@ public class QRScanner : MonoBehaviour
                         {
                             Debug.LogWarning(ex.Message);
                             outputText.text = "Failed to decrypt QR Code.";
-                            StopCoroutine(GetQRCode());
+                            break;
                         }
                     }
                 }
@@ -70,7 +70,7 @@ public class QRScanner : MonoBehaviour
             { 
                 Debug.LogWarning(ex.Message); 
                 outputText.text = "Exception: " + ex.Message;
-                StopCoroutine(GetQRCode());
+                break;
             }
             yield return null;
         }

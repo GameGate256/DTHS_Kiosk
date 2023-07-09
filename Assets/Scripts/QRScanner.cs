@@ -65,7 +65,7 @@ public class QRScanner : MonoBehaviour
         webcamTexture.Stop();
 
         WWWForm form = new WWWForm();
-        form.AddField("value", outputText.text);
+        form.AddField("value", CrypterManager.DecryptCipherTextToPlainText(QrCode));
         using(UnityWebRequest www = UnityWebRequest.Post(URL, form))
         {
             yield return www.SendWebRequest();

@@ -526,6 +526,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 838761757}
+        m_TargetAssemblyTypeName: KioskManager, Assembly-CSharp
+        m_MethodName: StartDetection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &600136849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -851,6 +863,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 838761757}
+        m_TargetAssemblyTypeName: KioskManager, Assembly-CSharp
+        m_MethodName: StopDetection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &768998342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,7 +943,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &838761757
 MonoBehaviour:
@@ -934,6 +958,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   qrscanner: {fileID: 1817876713}
+  MainScreen: {fileID: 1722923935}
+  DetectScreen: {fileID: 992457856}
+  ResultScreen: {fileID: 1204184849}
+  ErrorScreen: {fileID: 1471071005}
+  statusText: {fileID: 416597925}
 --- !u!1 &923230948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,7 +1056,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &992457857
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1321,7 +1350,7 @@ RectTransform:
   - {fileID: 992457857}
   - {fileID: 1204184850}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1485,7 +1514,7 @@ GameObject:
   - component: {fileID: 1204184852}
   - component: {fileID: 1204184851}
   m_Layer: 5
-  m_Name: ConformScreen
+  m_Name: ResultScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1510,7 +1539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0015258789}
+  m_AnchoredPosition: {x: 0, y: 0.0014648438}
   m_SizeDelta: {x: 0, y: 0.0029297}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1204184851
@@ -1644,7 +1673,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1471071006
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1665,7 +1694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.0999756, y: 28.450012}
+  m_AnchoredPosition: {x: 3.1000977, y: 28.449951}
   m_SizeDelta: {x: -567.06, y: -167.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1471071007
@@ -1956,7 +1985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1722923936
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2047,8 +2076,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 099fc17cfe51fca4395ed8d1d8315159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outputText: {fileID: 0}
   QrCode: 
+  isScanSuccess: 0
 --- !u!212 &1817876714
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2114,7 +2143,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1885367972
 GameObject:
@@ -2181,5 +2210,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

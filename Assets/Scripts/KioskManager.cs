@@ -16,25 +16,25 @@ public class KioskManager : MonoBehaviour
     {
         if(needRescan)
         {
-            statusText.text = "잘못된 QR코드이거나 QR코드를 제대로 인식하지 못했습니다. 다시 시도해주세요.";
+            statusText.text = "QR코드를 제대로 인식하지 못했습니다. 다시 시도해주세요.";
         }
         else
         {
             statusText.text = "QR코드를 인식시켜주세요.";
         }
-        //scan QR code and wait for result
+
         qrscanner.StartDetection();
         StartCoroutine(DetectQRCode());
     }
 
     IEnumerator DetectQRCode()
     {
-        //wait until qrscanner.isScanSuccess is true
         while (!qrscanner.isScanEnded)
         {
             if (needStop)
             {
                 qrscanner.StopDetection();
+                needStop = false;
                 yield break;
             }
             yield return null;
@@ -57,8 +57,7 @@ public class KioskManager : MonoBehaviour
         }
     }
 
-    public void StopDetection()
-    {
-        needStop = true;
-    }
+    public void StopDetection() => needStop = true;
+
+    public void Init_needRescan() => needRescan = false;
 }

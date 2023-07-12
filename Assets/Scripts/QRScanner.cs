@@ -32,7 +32,6 @@ public class QRScanner : MonoBehaviour
         isScanSuccess = false;
         isScanEnded = false;
         isScanning = true;
-        //outputText.text = "Scanning...";
         IBarcodeReader barCodeReader = new BarcodeReader();
         webcamTexture.Play();
         var snap = new Texture2D(webcamTexture.width, webcamTexture.height, TextureFormat.ARGB32, false);
@@ -42,7 +41,6 @@ public class QRScanner : MonoBehaviour
             {
                 if(isScanning == false)
                 {
-                    //outputText.text = "Stopped.";
                     isScanEnded = true;
                     break;
                 }
@@ -51,15 +49,13 @@ public class QRScanner : MonoBehaviour
                 var Result= barCodeReader.Decode(snap.GetRawTextureData(), webcamTexture.width, webcamTexture.height, RGBLuminanceSource.BitmapFormat.ARGB32);
                 if (Result!= null)
                 {
-                    //print("DETECTED");
                     QrCode = Result.Text;
                     if (!string.IsNullOrEmpty(QrCode))
                     {
                         try
                         {
                             //Debug.Log("Plain Text: " + QrCode);
-                            Debug.Log("Decrypted Text: " + CrypterManager.DecryptAES(QrCode));
-                            //outputText.text = CrypterManager.DecryptAES(QrCode);
+                            //Debug.Log("Decrypted Text: " + CrypterManager.DecryptAES(QrCode));
                             QRoutput = CrypterManager.DecryptAES(QrCode);
                             isScanSuccess = true;
                             isScanEnded = true;
@@ -68,7 +64,6 @@ public class QRScanner : MonoBehaviour
                         catch (Exception ex)
                         {
                             Debug.LogWarning(ex.Message);
-                            //outputText.text = "Failed to decrypt QR Code.";
                             isScanEnded = true;
                             break;
                         }
@@ -78,7 +73,6 @@ public class QRScanner : MonoBehaviour
             catch (Exception ex) 
             { 
                 Debug.LogWarning(ex.Message); 
-                //outputText.text = "Exception: " + ex.Message;
                 isScanEnded = true;
                 break;
             }
@@ -94,7 +88,7 @@ public class QRScanner : MonoBehaviour
                 yield return www.SendWebRequest();
 
                 string data = www.downloadHandler.text;
-                print(data);
+                //print(data);
             }
         }
     }
@@ -106,7 +100,7 @@ public class QRScanner : MonoBehaviour
         webcamTexture = new WebCamTexture(512, 512);
         this.GetComponent<Renderer>().material.mainTexture = webcamTexture;
 
-        print(webcamTexture.deviceName);
+        //print(webcamTexture.deviceName);
         StartCoroutine(GetQRCode());
     }
 

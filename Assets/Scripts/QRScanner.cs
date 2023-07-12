@@ -71,6 +71,7 @@ public class QRScanner : MonoBehaviour
                 Debug.LogWarning(ex.Message); 
                 outputText.text = "Exception: " + ex.Message;
                 StopCoroutine(GetQRCode());
+                break;
             }
             yield return null;
         }

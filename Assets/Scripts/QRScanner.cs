@@ -75,15 +75,17 @@ public class QRScanner : MonoBehaviour
             yield return null;
         }
         webcamTexture.Stop();
-
-        WWWForm form = new WWWForm();
-        form.AddField("value", outputText.text);
-        using(UnityWebRequest www = UnityWebRequest.Post(URL, form))
+        if(isScanSuccess)
         {
-            yield return www.SendWebRequest();
+            WWWForm form = new WWWForm();
+            form.AddField("value", outputText.text);
+            using(UnityWebRequest www = UnityWebRequest.Post(URL, form))
+            {
+                yield return www.SendWebRequest();
 
-            string data = www.downloadHandler.text;
-            print(data);
+                string data = www.downloadHandler.text;
+                //print(data);
+            }
         }
     }
 

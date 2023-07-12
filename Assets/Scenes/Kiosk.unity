@@ -526,6 +526,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1817876713}
+        m_TargetAssemblyTypeName: QRScanner, Assembly-CSharp
+        m_MethodName: StartDetection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &600136849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2047,7 +2059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 099fc17cfe51fca4395ed8d1d8315159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outputText: {fileID: 0}
+  outputText: {fileID: 416597925}
   QrCode: 
 --- !u!212 &1817876714
 SpriteRenderer:

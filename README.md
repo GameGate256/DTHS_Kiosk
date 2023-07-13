@@ -10,7 +10,7 @@
   <a href="https://github.com/GameGate256/DTHS_Kiosk/issues/">
     <img src="https://img.shields.io/github/issues/GameGate256/DTHS_Kiosk" alt="open issues" />
   </a>
-  <a href="https://github.com/GameGate256/DTHS_Kiosk/master/LICENSE">
+  <a href="https://github.com/GameGate256/DTHS_Kiosk/LICENSE">
     <img src="https://img.shields.io/github/license/GameGate256/DTHS_Kiosk.svg" alt="license" />
   </a>
 </p>

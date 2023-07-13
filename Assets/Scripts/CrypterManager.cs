@@ -8,7 +8,7 @@ using UnityEngine;
 public class CrypterManager : MonoBehaviour
 {
     static string aes_key = "03nxUXTG4l1ZMH54oqR2NbaAbknyt3qhBN9jaUL3FtM="; //44 characters
-    static string aes_iv = "2878dc064fdaf29f"; //24 characters
+    static string aes_iv = "2878dc064fdaf29f"; //16 characters
 
     public string x;
 
@@ -56,7 +56,7 @@ public class CrypterManager : MonoBehaviour
 
         using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
         {
-            aes.KeySize = 256; //AES256
+            aes.KeySize = 256;
             aes.BlockSize = 128;
             aes.Key = System.Convert.FromBase64String(aes_key);
             aes.IV = Encoding.UTF8.GetBytes(aes_iv);

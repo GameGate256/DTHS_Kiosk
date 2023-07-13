@@ -3,7 +3,7 @@ var app = SpreadsheetApp;
 var sheet = app.getActiveSpreadsheet();
 var activeSheet = app.getActiveSpreadsheet().getActiveSheet();
 let date = new Date();
-var TEMPLATE_SHEET = "템플릿";
+var template = "템플릿";
 var p;
 
 var year = date.getFullYear();
@@ -11,13 +11,13 @@ var month = ('0' + (date.getMonth() + 1)).slice(-2);
 var day = ('0' + date.getDate()).slice(-2);
 var dateString = year + '-' + month  + '-' + day;
 
-const createSheetForToday = () => {
+const createSheet = () => {
   const today = dateString;
 
-  sheetId.setActiveSheet(sheetId.getSheetByName(TEMPLATE_SHEET), true);
+  sheetId.setActiveSheet(sheetId.getSheetByName(template), true);
   sheetId.duplicateActiveSheet();
   
-  sheetId.setActiveSheet(sheetId.getSheetByName(`${TEMPLATE_SHEET}의 사본`), true);
+  sheetId.setActiveSheet(sheetId.getSheetByName(`${template}의 사본`), true);
   try {
     sheetId.getActiveSheet().setName(today);
   } catch (e) {
@@ -29,7 +29,7 @@ const createSheetForToday = () => {
 
 function doPost(e)
 {
-  createSheetForToday();
+  createSheet();
   var targetSheet = app.getActiveSpreadsheet().getSheetByName(dateString);
   p = e.parameter;
   var lastrow = targetSheet.getLastRow() + 1;

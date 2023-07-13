@@ -6,7 +6,10 @@
 ## [구글 시트 링크](https://docs.google.com/spreadsheets/d/10fMEvmLLreOmNsWWwMVQY7bHbgKYTxjBPAEUP73AbCw/edit?usp=sharing)
 
 # 프로젝트 소개
-음
+이 프로젝트는 동탄고등학교에 새로 생긴 스터디카페의 
+
+#License
+This project is [MIT](./LICENSE) licensed.
 
 
 

@@ -19,7 +19,7 @@
 ### [구글 시트 링크](https://docs.google.com/spreadsheets/d/10fMEvmLLreOmNsWWwMVQY7bHbgKYTxjBPAEUP73AbCw/edit?usp=sharing)
 
 # 프로젝트 소개
-이 프로젝트는 동탄고등학교에 새로 생긴 스터디카페의 
+이 프로젝트는 동탄고등학교에 새로 생긴 스터디카페의 출입 키오스크 소프트웨어를 구축하는 프로젝트로 동탄고 학생 4명이 참여해 만들었다.
 
 # Built With
 <div align="center">

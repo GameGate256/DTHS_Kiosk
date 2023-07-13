@@ -8,7 +8,7 @@
 # 프로젝트 소개
 이 프로젝트는 동탄고등학교에 새로 생긴 스터디카페의 
 
-#License
+# License
 This project is [MIT](./LICENSE) licensed.
 
 

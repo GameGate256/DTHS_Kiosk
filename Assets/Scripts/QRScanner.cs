@@ -20,7 +20,7 @@ public class QRScanner : MonoBehaviour
 
     string QRoutput;
 
-    const string URL = "https://script.google.com/macros/s/AKfycbx5W0v3oFpm2aH7gOJ3uGAFjkdViKD6nZzBvIeGYYZy6Qw082XBoLR15MSrzo2i8_Lb/exec";
+    const string URL = "https://script.google.com/macros/s/AKfycbwXt4TzF6ciimmeX7QbmllyXbvYkYPh9c6ojgjKUFsT7CM6ioNZnFPokIocnPNeNTzz/exec";
 
     void Start()
     {

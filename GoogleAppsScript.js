@@ -11,6 +11,8 @@ var month = ('0' + (date.getMonth() + 1)).slice(-2);
 var day = ('0' + date.getDate()).slice(-2);
 var dateString = year + '-' + month  + '-' + day;
 
+var timeString = date.getHours();
+
 const createSheet = () => {
   const today = dateString;
 
@@ -27,13 +29,20 @@ const createSheet = () => {
   
 };
 
+
 function doPost(e)
 {
   createSheet();
   var targetSheet = app.getActiveSpreadsheet().getSheetByName(dateString);
   p = e.parameter;
   var lastrow = targetSheet.getLastRow() + 1;
-  targetSheet.getRange(lastrow , 1).setValue(p.value);
-  targetSheet.getRange(lastrow , 2).setValue(date.toLocaleString());
+  if (timeString >= 18)
+  {
+    targetSheet.getRange(lastrow , 1).setValue(p.value).setBackground('#ea4336');
+    targetSheet.getRange(lastrow , 2).setValue(date.toLocaleString()).setBackground('#ea4336');
+  } else {
+    targetSheet.getRange(lastrow , 1).setValue(p.value).setBackground('#34a853');
+    targetSheet.getRange(lastrow , 2).setValue(date.toLocaleString()).setBackground('#34a853');
+  }
   return ContentService.createTextOutput(p.value);
 }

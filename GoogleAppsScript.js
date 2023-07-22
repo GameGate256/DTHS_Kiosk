@@ -12,7 +12,7 @@ var month = ('0' + (date.getMonth() + 1)).slice(-2);
 var day = ('0' + date.getDate()).slice(-2);
 var dateString = year + '-' + month  + '-' + day;
 
-var sheetid = sheet.getSheetByName(dateString).getSheetId();
+
 
 var timeString = date.getHours();
 
@@ -23,9 +23,11 @@ const createSheet = () => {
   sheetId.duplicateActiveSheet();
   
   sheetId.setActiveSheet(sheetId.getSheetByName(`${template}의 사본`), true);
-  try {
+  try 
+  {
     sheetId.getActiveSheet().setName(today);
-  } catch (e) {
+  } catch (e) 
+  {
     sheetId.deleteActiveSheet();
   }
  
@@ -50,35 +52,41 @@ function doPost(e)
   return ContentService.createTextOutput(p.value);
 }
 
-function SendEmail(){
-	try {
- 
+function SendEmail()
+{
+	try 
+  {
+    var sheetnum = sheet.getSheetByName(dateString).getSheetId();
     var emailSheet = sheet.getSheetByName("DB"); 
 
     for(let index=2; index<99; index++){ 
 
       email = emailSheet.getRange("A"+index).getValue();
 
-      if (email !==  ""){ 
+      if (email !==  "")
+      { 
 
         MailApp.sendEmail({
           to : email, 
           subject : "test email",
-          body : "https://docs.google.com/spreadsheets/d/10fMEvmLLreOmNsWWwMVQY7bHbgKYTxjBPAEUP73AbCw/export?format=xlsx&gid=" + sheetid,
+          body : "https://docs.google.com/spreadsheets/d/10fMEvmLLreOmNsWWwMVQY7bHbgKYTxjBPAEUP73AbCw/export?format=xlsx&gid=" + sheetnum,
         });
 
-      }else{
+      }else
+      {
         break; 
       }
                     
     }
         
-     } catch(err){
+     } catch(err)
+     {
      	console.log(err);     
      }
 }
 
-function setTrigger(){ 
+function setTrigger()
+{ 
 
   const time = new Date(); 
   time.setHours(20); 
